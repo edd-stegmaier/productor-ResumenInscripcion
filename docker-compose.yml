@@ -16,8 +16,8 @@ services:
       SPRING_RABBITMQ_PASSWORD: ${SPRING_RABBITMQ_PASSWORD:-guest}
       DB_USERNAME: ${DB_USERNAME:-ADMIN}
       DB_PASSWORD: ${DB_PASSWORD:-}
-      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL:-jdbc:oracle:thin:@<tns_alias>?TNS_ADMIN=/opt/oracle/wallet}
-      DB_WALLET_PATH: /opt/oracle/wallet
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL:-jdbc:oracle:thin:@sl48gy9yyye6vjcb_tp?TNS_ADMIN=/opt/oracle/wallet/Wallet_SL48GY9YYYE6VJCB}
+      DB_WALLET_PATH: /opt/oracle/wallet/Wallet_SL48GY9YYYE6VJCB
       DB_MAX_POOL_SIZE: ${DB_MAX_POOL_SIZE:-10}
       DB_MIN_IDLE: ${DB_MIN_IDLE:-5}
       DB_CONNECTION_TIMEOUT: ${DB_CONNECTION_TIMEOUT:-30000}
