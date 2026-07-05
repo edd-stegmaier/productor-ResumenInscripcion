@@ -1,19 +1,18 @@
 services:
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: plataforma-educativa-resumen:latest
+    image: maven:3.9.9-eclipse-temurin-21
     container_name: plataforma-educativa-resumen
     restart: unless-stopped
+    working_dir: /workspace
     ports:
       - "${APP_PORT:-8081}:8081"
     environment:
       SERVER_PORT: 8081
-      SPRING_RABBITMQ_HOST: rabbitmq
-      SPRING_RABBITMQ_PORT: 5672
-      SPRING_RABBITMQ_USERNAME: ${RABBITMQ_DEFAULT_USER:-guest}
-      SPRING_RABBITMQ_PASSWORD: ${RABBITMQ_DEFAULT_PASS:-guest}
+      SPRING_AUTOCONFIGURE_EXCLUDE: org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
+      SPRING_RABBITMQ_HOST: ${SPRING_RABBITMQ_HOST:-localhost}
+      SPRING_RABBITMQ_PORT: ${SPRING_RABBITMQ_PORT:-5672}
+      SPRING_RABBITMQ_USERNAME: ${SPRING_RABBITMQ_USERNAME:-guest}
+      SPRING_RABBITMQ_PASSWORD: ${SPRING_RABBITMQ_PASSWORD:-guest}
       DB_USERNAME: ${DB_USERNAME:-ADMIN}
       DB_PASSWORD: ${DB_PASSWORD:-}
       SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL:-jdbc:oracle:thin:@<tns_alias>?TNS_ADMIN=/opt/oracle/wallet}
@@ -24,5 +23,8 @@ services:
       DB_IDLE_TIMEOUT: ${DB_IDLE_TIMEOUT:-600000}
       DB_MAX_LIFETIME: ${DB_MAX_LIFETIME:-1800000}
     volumes:
+      - ./:/workspace
       - ./wallet:/opt/oracle/wallet:ro
+    command: >
+      sh -c "./mvnw -q -DskipTests package && java -jar /workspace/target/plataformaEducativa-1.2.0.jar"
 
