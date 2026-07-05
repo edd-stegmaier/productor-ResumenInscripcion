@@ -26,5 +26,5 @@ services:
       - ./:/workspace
       - ./wallet:/opt/oracle/wallet:ro
     command: >
-      sh -c "./mvnw -q -DskipTests package && java -jar /workspace/target/plataformaEducativa-1.2.0.jar"
+      sh -c "mvn -q -DskipTests package && java -jar /workspace/target/plataformaEducativa-1.2.0.jar"
 
