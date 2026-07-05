@@ -1,9 +1,13 @@
 services:
   app:
-    image: maven:3.9.9-eclipse-temurin-21
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: plataforma-educativa-resumen:latest
     container_name: plataforma-educativa-resumen
     restart: unless-stopped
-    working_dir: /workspace
+    env_file:
+      - .env
     ports:
       - "${APP_PORT:-8081}:8081"
     environment:
@@ -23,8 +27,5 @@ services:
       DB_IDLE_TIMEOUT: ${DB_IDLE_TIMEOUT:-600000}
       DB_MAX_LIFETIME: ${DB_MAX_LIFETIME:-1800000}
     volumes:
-      - ./:/workspace
       - ./wallet:/opt/oracle/wallet:ro
-    command: >
-      sh -c "mvn -q -DskipTests package && java -jar /workspace/target/plataformaEducativa-1.2.0.jar"
 
