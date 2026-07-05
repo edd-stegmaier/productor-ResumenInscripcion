@@ -1,10 +1,9 @@
 services:
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: maven:3.9.9-eclipse-temurin-21
     container_name: plataforma-educativa-resumen
     restart: unless-stopped
+    working_dir: /workspace
     env_file:
       - .env
     ports:
@@ -27,5 +26,8 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:
+      - ./:/workspace
       - ./wallet:/opt/oracle/wallet:ro
+    command: >
+      sh -c "mvn -q -DskipTests package && java -jar target/plataformaEducativa-1.2.0.jar"
 
