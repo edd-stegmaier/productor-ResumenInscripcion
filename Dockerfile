@@ -2,12 +2,9 @@ FROM maven:3.9.9-eclipse-temurin-21 AS buildstage
 
 WORKDIR /app
 
-COPY .mvn/ .mvn/
-COPY mvnw pom.xml ./
-RUN chmod +x mvnw
-
+COPY pom.xml ./
 COPY src/ src/
-RUN ./mvnw -q -DskipTests package
+RUN mvn -q -DskipTests package
 
 FROM eclipse-temurin:21-jre
 
@@ -22,4 +19,3 @@ COPY --from=buildstage /app/target/plataformaEducativa-1.2.0.jar /app/app.jar
 EXPOSE 8081
 
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
-##
