@@ -3,7 +3,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: plataforma-educativa-resumen:latest
     container_name: plataforma-educativa-resumen
     restart: unless-stopped
     env_file:
