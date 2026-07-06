@@ -10,7 +10,7 @@ services:
       - "${APP_PORT:-8081}:8081"
     environment:
       SERVER_PORT: ${APP_PORT:-8081}
-      SPRING_RABBITMQ_HOST: ${SPRING_RABBITMQ_HOST:-host.docker.internal}
+      SPRING_RABBITMQ_HOST: ${SPRING_RABBITMQ_HOST:-rabbitmq}
       SPRING_RABBITMQ_PORT: ${SPRING_RABBITMQ_PORT:-5672}
       SPRING_RABBITMQ_USERNAME: ${SPRING_RABBITMQ_USERNAME:-guest}
       SPRING_RABBITMQ_PASSWORD: ${SPRING_RABBITMQ_PASSWORD:-guest}
@@ -23,11 +23,16 @@ services:
       DB_CONNECTION_TIMEOUT: ${DB_CONNECTION_TIMEOUT:-30000}
       DB_IDLE_TIMEOUT: ${DB_IDLE_TIMEOUT:-600000}
       DB_MAX_LIFETIME: ${DB_MAX_LIFETIME:-1800000}
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     volumes:
       - ./:/workspace
       - ./wallet:/opt/oracle/wallet:ro
+    networks:
+      - plataforma-network
     command: >
       sh -c "mvn -q -DskipTests package && java -jar target/plataformaEducativa-1.2.0.jar"
+
+networks:
+  plataforma-network:
+    external: true
+    name: plataforma-network
 
